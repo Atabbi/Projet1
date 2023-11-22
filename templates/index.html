@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Gestionnaire de Tâches</title>
+        <style>
+            .completed {
+            text-decoration: line-through; 
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Liste de Tâches</h1>
+        <ul>
+            {% for tache in taches %}
+                <li class="{{ 'completed' if tache.est_completee else '' }}">
+                    {{ tache.description }}
+                    {% if not tache.est_completee %}
+                        - <a href="{{ url_for('completer_tache', index=loop.index0) }}">Completer</a>
+                    {% endif %}
+                    <form action="/supprimer/{{taches.index(tache)}}" method="get">
+                        <input type="submit" value="Supprimer">
+                    </form>
+                </li>
+            {% endfor %}
+        </ul>
+        <form action="/ajouter" method="post">
+            <input type="text" name="description" placeholder="Nouvelle tâche">
+            <input type="submit" value="Ajouter">
+   
+        </form>
+    </body>
+</html>
